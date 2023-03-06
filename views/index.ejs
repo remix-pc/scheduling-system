@@ -23,7 +23,8 @@
 var element = document.getElementById("calendar");
 var calendar = new FullCalendar.Calendar(element, {
     initialView: 'dayGridMonth',
-    locale: 'pt-BR'
+    locale: 'pt-BR',
+    events: 'getCalendar'
 })
 
 calendar.render()

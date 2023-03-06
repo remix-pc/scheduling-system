@@ -14,7 +14,6 @@ class AppointmentFactory{
 
         var startDate = new Date(year, month, day, hour, minutes, 0,0)
 
-        startDate.setHours(startDate.getHours() - 3)
 
         var appo = {
             id: simpleAppointments.id,
