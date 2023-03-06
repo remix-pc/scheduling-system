@@ -69,9 +69,27 @@ app.get("/event/:id", async (req, res) =>{
 
 app.post("/finish", async (req, res) => {
     var id = req.body.id
-    var result = await appoitmentServices.Finished(id)
+    await appoitmentServices.Finished(id)
     res.redirect("/")
 })
+
+app.get("/list", async (req, res) => {
+    //await appoitmentServices.Search("guilherme@teste.com")
+    var appos = await appoitmentServices.GetAll(true)
+    res.render("list",{appos})
+
+})
+
+
+app.get("/searchresult", async (req, res) => {
+    console.log(req.query.search)
+    var appos = await appoitmentServices.Search(req.query.search)
+    res.render("list", {appos})
+})
+
+
+
+
 
 
 app.listen(9790, () => {
