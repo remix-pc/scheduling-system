@@ -88,7 +88,11 @@ app.get("/searchresult", async (req, res) => {
 })
 
 
+var pollTime = 5000
 
+setInterval(async () => {
+    await appoitmentServices.sendNotification()
+}, pollTime)
 
 
 

@@ -1,19 +1,14 @@
 const appointment = require("../model/Appointment")
 const mongoose = require("mongoose")
 const AppointmentFactory = require('../factories/AppointmentsFactory')
+const mailer = require('nodemailer')
+
 
 const Appo = mongoose.model("Appointment", appointment)
 
 class AppointmentService {
 
 
-    async Delete(){
-        Appo.findByIdAndDelete("64061b6d07231b06801af13d").then(() => {
-            console.log("Deletado com sucesso.")
-        }).catch(error => {
-            console.log(error)
-        }) 
-    }
 
         async Create(name, email, description, cpf, date, time) {
 
@@ -24,7 +19,8 @@ class AppointmentService {
                 cpf,
                 date,
                 time,
-                finished: false
+                finished: false,
+                notified: false
             })
 
             try{
@@ -84,6 +80,52 @@ class AppointmentService {
                 console.log(error)
                 return []
             }
+        }
+
+        async sendNotification(){
+            var appos = await this.GetAll(false)
+
+            var transporter = mailer.createTransport({
+                host: "sandbox.smtp.mailtrap.io",
+                port: 465,
+                auth: {
+                    user: "edc7cc59825efc",
+                    pass: "9821fbd83779ab"
+                }
+            })
+
+
+            appos.forEach( async app => {
+                var date = app.start.getTime()
+                var hour = 1000 * 60 * 60
+
+                var gap = date - Date.now()
+
+                if(gap <= hour) {
+                    
+                    if(!app.notified) {
+                     
+
+                        await Appo.findByIdAndUpdate(app.id, {notified: true})
+
+                        transporter.sendMail({
+                            from: "Remixo <g09efue@gmail.com>",
+                            to: app.email,
+                            subject: "Sua consulta vai acontecer em breve.",
+                            text: "Sua consulta vai acontecer em 1 hora."
+                        }).then(() => {
+
+                        }).catch(error => {
+                            console.log(error)
+                        })
+
+
+
+                    }
+
+                }
+
+            })
         }
 }
 
