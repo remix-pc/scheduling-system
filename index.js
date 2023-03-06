@@ -27,7 +27,7 @@ app.set("view engine", "ejs")
 
 
 app.get("/", (req, res) => {
-    res.send("Hello World!")
+    res.render("index")
 })
 
 app.get("/cadastro", (req, res) => {
@@ -53,7 +53,15 @@ app.post("/create", async (req, res) =>{
 
 })
 
+app.get("/getCalendar", async (req, res) => {
 
-app.listen(8080, () => {
+    var apointments = await appoitmentServices.GetAll(false)
+
+    res.json(apointments)
+
+})
+
+
+app.listen(9790, () => {
     console.log("Servidor rodando")
 })

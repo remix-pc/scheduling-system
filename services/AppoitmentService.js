@@ -1,10 +1,19 @@
 const appointment = require("../model/Appointment")
 const mongoose = require("mongoose")
-
+const AppointmentFactory = require('../factories/AppointmentsFactory')
 
 const Appo = mongoose.model("Appointment", appointment)
 
 class AppointmentService {
+
+
+    async Delete(){
+        Appo.findByIdAndDelete("64061b6d07231b06801af13d").then(() => {
+            console.log("Deletado com sucesso.")
+        }).catch(error => {
+            console.log(error)
+        }) 
+    }
 
         async Create(name, email, description, cpf, date, time) {
 
@@ -14,7 +23,8 @@ class AppointmentService {
                 description,
                 cpf,
                 date,
-                time
+                time,
+                finished: false
             })
 
             try{
@@ -23,6 +33,23 @@ class AppointmentService {
             }catch(error) {
                 console.log(error)
                 return false
+            }
+        }
+
+        async GetAll(showFinished){
+            if(showFinished){
+                return await Appo.find();
+            }else{
+                var appos = await Appo.find({'finished': false});
+                var appointments = [];
+    
+                appos.forEach(appointment => {
+                    if(appointment.date != undefined){
+                        appointments.push( AppointmentFactory.Build(appointment) )
+                    }                
+                });
+    
+                return appointments;
             }
         }
 }
