@@ -52,6 +52,26 @@ class AppointmentService {
                 return appointments;
             }
         }
+
+        async getById(id) {
+            try{
+
+                var event = await Appo.findOne({"_id": id})
+                return event
+            }catch(error){
+                console.log(error)
+            }
+        }
+
+        async Finished(id) {
+            try{
+                await Appo.findByIdAndUpdate(id,{finished: true})
+                return true
+            }catch(error) {
+                return false
+                console.log(error)
+            }
+        }
 }
 
 module.exports = new AppointmentService()

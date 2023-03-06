@@ -24,7 +24,10 @@ var element = document.getElementById("calendar");
 var calendar = new FullCalendar.Calendar(element, {
     initialView: 'dayGridMonth',
     locale: 'pt-BR',
-    events: 'getCalendar'
+    events: 'getCalendar',
+    eventClick: function(info) {
+        window.location.href = '/event/' + info.event.id
+    }
 })
 
 calendar.render()

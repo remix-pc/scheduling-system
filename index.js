@@ -61,6 +61,18 @@ app.get("/getCalendar", async (req, res) => {
 
 })
 
+app.get("/event/:id", async (req, res) =>{
+    var appointment = await appoitmentServices.getById(req.params.id)
+    console.log(appointment)
+    res.render("event", {appo: appointment})
+})
+
+app.post("/finish", async (req, res) => {
+    var id = req.body.id
+    var result = await appoitmentServices.Finished(id)
+    res.redirect("/")
+})
+
 
 app.listen(9790, () => {
     console.log("Servidor rodando")
