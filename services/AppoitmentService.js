@@ -87,10 +87,10 @@ class AppointmentService {
 
             var transporter = mailer.createTransport({
                 host: "sandbox.smtp.mailtrap.io",
-                port: 465,
+                port: 2525,
                 auth: {
-                    user: "edc7cc59825efc",
-                    pass: "9821fbd83779ab"
+                    user: "1bf929ffba4765",
+                    pass: "327d95ea9bbde7"
                 }
             })
 
