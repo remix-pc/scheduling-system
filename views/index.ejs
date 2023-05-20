@@ -27,7 +27,18 @@ var calendar = new FullCalendar.Calendar(element, {
     events: 'getCalendar',
     eventClick: function(info) {
         window.location.href = '/event/' + info.event.id
-    }
+    },
+   editable: true,
+   selectable: true,
+   dateClick: function(info){
+    let clickDate = info.date
+
+    console.log(info)
+
+    
+
+    //window.location.href = '/cadastro'
+   }
 })
 
 calendar.render()
