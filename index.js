@@ -3,6 +3,8 @@ const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const appoitmentServices = require('./services/AppoitmentService')
+const http = require('http').createServer(app)
+const io = require('socket.io')(http)
 
 
 const HOST = '127.0.0.1'
@@ -22,6 +24,13 @@ app.use(bodyParser.json())
 app.set("view engine", "ejs")
 
 
+
+io.on("connection", (socket) => {
+    socket.on("name", (data) => {
+        io.emmit("nome", data)
+        console.log(data);
+    })
+})
 
 
 
@@ -96,6 +105,6 @@ setInterval(async () => {
 
 
 
-app.listen(9790, () => {
+http.listen(9790, () => {
     console.log("Servidor rodando")
 })
