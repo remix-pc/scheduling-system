@@ -27,7 +27,7 @@ app.set("view engine", "ejs")
 
 io.on("connection", (socket) => {
     socket.on("data", (dataResult) => {
-        socket.emit("datetime", dataResult)
+        io.emit("datetime", dataResult)
         console.log(dataResult);
     })
 
