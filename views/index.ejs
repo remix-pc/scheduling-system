@@ -9,16 +9,12 @@
     <script src="main.js"></script>
 </head>
 <body>
-
-    <div id="calendar">
-
-
-
-    </div>
-    
+    <div id="calendar"></div> 
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
 <script>
 
+var socket = io("http://localhost:9790", {transports: ['websocket']})
 
 var element = document.getElementById("calendar");
 var calendar = new FullCalendar.Calendar(element, {
@@ -33,11 +29,11 @@ var calendar = new FullCalendar.Calendar(element, {
    dateClick: function(info){
     let clickDate = info.date
 
-    console.log(info)
+    socket.emit("data", clickDate)
 
-    
+    localStorage.setItem("data", clickDate)
 
-    //window.location.href = '/cadastro'
+    window.location.href = '/cadastro'
    }
 })
 

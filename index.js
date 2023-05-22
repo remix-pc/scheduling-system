@@ -26,10 +26,11 @@ app.set("view engine", "ejs")
 
 
 io.on("connection", (socket) => {
-    socket.on("name", (data) => {
-        io.emmit("nome", data)
-        console.log(data);
+    socket.on("data", (dataResult) => {
+        socket.emit("datetime", dataResult)
+        console.log(dataResult);
     })
+
 })
 
 
